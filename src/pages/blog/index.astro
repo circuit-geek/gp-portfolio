@@ -1,0 +1,225 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="Blog - Your Name" description="Thoughts on data science, machine learning, and career development">
+  <Navigation />
+  
+  <main class="blog-main">
+    <div class="container">
+      <div class="blog-header">
+        <h1>Blog</h1>
+        <p>Thoughts on data science, machine learning, and career development</p>
+      </div>
+
+      <div class="posts-grid">
+        {sortedPosts.length > 0 ? (
+          sortedPosts.map((post) => (
+            <article class="post-card card">
+              <h2 class="post-title">
+                <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+              </h2>
+              <p class="post-description">{post.data.description}</p>
+              <div class="post-meta">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {post.data.pubDate.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </time>
+                {post.data.tags && (
+                  <div class="post-tags">
+                    {post.data.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <a href={`/blog/${post.slug}`} class="read-more">Read more →</a>
+            </article>
+          ))
+        ) : (
+          // Placeholder posts when no content exists
+          <article class="post-card card">
+            <h2 class="post-title">
+              <a href="/blog/getting-started-with-ml">Getting Started with Machine Learning: A Data Engineer's Perspective</a>
+            </h2>
+            <p class="post-description">
+              Transitioning from traditional data engineering to machine learning can be challenging. 
+              Here's what I learned during my journey and tips for other engineers looking to make the switch.
+            </p>
+            <div class="post-meta">
+              <time>January 15, 2024</time>
+              <div class="post-tags">
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Career</span>
+              </div>
+            </div>
+            <a href="#" class="read-more">Read more →</a>
+          </article>
+
+          <article class="post-card card">
+            <h2 class="post-title">
+              <a href="/blog/building-ml-pipelines">Building Robust ML Pipelines: Lessons from Production</a>
+            </h2>
+            <p class="post-description">
+              Production ML systems are different from notebooks. Learn about the challenges I faced 
+              building ML pipelines at scale and the solutions that worked.
+            </p>
+            <div class="post-meta">
+              <time>January 8, 2024</time>
+              <div class="post-tags">
+                <span class="tag">MLOps</span>
+                <span class="tag">Data Engineering</span>
+              </div>
+            </div>
+            <a href="#" class="read-more">Read more →</a>
+          </article>
+
+          <article class="post-card card">
+            <h2 class="post-title">
+              <a href="/blog/feature-engineering-tips">Feature Engineering: The Art of Data Transformation</a>
+            </h2>
+            <p class="post-description">
+              Good features can make or break your model. Discover advanced feature engineering techniques 
+              that have consistently improved my model performance.
+            </p>
+            <div class="post-meta">
+              <time>December 28, 2023</time>
+              <div class="post-tags">
+                <span class="tag">Feature Engineering</span>
+                <span class="tag">Data Science</span>
+              </div>
+            </div>
+            <a href="#" class="read-more">Read more →</a>
+          </article>
+        )}
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .blog-main {
+    padding-top: 5rem;
+    min-height: 80vh;
+  }
+
+  .blog-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    padding: 3rem 0;
+  }
+
+  .blog-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #111827;
+  }
+
+  .blog-header p {
+    font-size: 1.25rem;
+    color: #6b7280;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .post-title {
+    margin-bottom: 1rem;
+  }
+
+  .post-title a {
+    color: #111827;
+    text-decoration: none;
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .post-title a:hover {
+    color: #2563eb;
+  }
+
+  .post-description {
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .post-meta time {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    background-color: #eff6ff;
+    color: #2563eb;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .read-more {
+    color: #2563eb;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: auto;
+  }
+
+  .read-more:hover {
+    color: #1d4ed8;
+  }
+
+  @media (max-width: 768px) {
+    .blog-header h1 {
+      font-size: 2.5rem;
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .post-meta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

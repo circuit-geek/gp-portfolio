@@ -1,0 +1,148 @@
+---
+---
+
+<nav class="nav">
+  <div class="container nav-container">
+    <a href="/" class="logo">
+      <span>Your Name</span>
+    </a>
+    
+    <div class="nav-menu" id="nav-menu">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/#about" class="nav-link">About</a>
+      <a href="/#projects" class="nav-link">Projects</a>
+      <a href="/blog" class="nav-link" data-external="true">Blog</a>
+      <a href="/#contact" class="nav-link">Contact</a>
+    </div>
+
+    <button class="nav-toggle" id="nav-toggle">
+      <span class="hamburger"></span>
+      <span class="hamburger"></span>
+      <span class="hamburger"></span>
+    </button>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #111827;
+  }
+
+  .logo:hover {
+    color: #2563eb;
+  }
+
+  .nav-menu {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-weight: 500;
+    color: #4b5563;
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover {
+    color: #2563eb;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .hamburger {
+    width: 1.5rem;
+    height: 2px;
+    background-color: #4b5563;
+    margin: 2px 0;
+    transition: 0.3s;
+  }
+
+  @media (max-width: 768px) {
+    .nav-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      flex-direction: column;
+      padding: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .nav-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-toggle.active .hamburger:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .nav-toggle.active .hamburger:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.active .hamburger:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
+
+    navToggle?.addEventListener('click', function() {
+      navMenu?.classList.toggle('active');
+      navToggle.classList.toggle('active');
+    });
+
+    // Close menu when clicking on a link
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        // Don't close menu for external links (like blog)
+        if (!link.hasAttribute('data-external')) {
+          navMenu?.classList.remove('active');
+          navToggle?.classList.remove('active');
+        }
+      });
+    });
+  });
+</script>
