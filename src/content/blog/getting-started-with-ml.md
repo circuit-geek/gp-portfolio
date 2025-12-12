@@ -1,11 +1,11 @@
 ---
-title: "Getting Started with Machine Learning: A Data Engineer's Perspective"
+title: "Decoding LinearRegression()"
 description: "Transitioning from traditional data engineering to machine learning can be challenging. Here's what I learned during my journey and tips for other engineers looking to make the switch."
 pubDate: 2024-01-15
 author: "Your Name"
 tags: ["Machine Learning", "Career", "Data Engineering"]
 ---
-
+<!-- 
 # Getting Started with Machine Learning: A Data Engineer's Perspective
 
 Transitioning from traditional data engineering to machine learning was one of the most challenging yet rewarding decisions of my career. As someone who spent years building data pipelines and managing databases, the world of ML algorithms and statistical models felt both familiar and completely foreign.
@@ -66,4 +66,4 @@ Here's the approach that worked for me:
 - **Practice**: Kaggle competitions for real-world problems
 - **Community**: Local ML meetups and online forums
 
-The transition takes time, but your engineering background gives you a unique perspective on building production ML systems. Embrace the journey!
+The transition takes time, but your engineering background gives you a unique perspective on building production ML systems. Embrace the journey! -->
