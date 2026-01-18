@@ -8,7 +8,8 @@ tags: ["Machine Learning", "Statistics", "Regression Modelling"]
 
 # Introduction
 
-Almost every ML practitioner or Data Scientist would have first opted for the Linear Regression model for a structured tabular dataset. The reason being this model provides a strong baseline metric to compare with other models. And at complex models struggle to beat this baseline without explicit finetuning. At some point who do analysis in python would have definitely written the following lines of code:
+Almost every ML practitioner or Data Scientist would have first opted for the Linear Regression model for a structured tabular dataset. The reason being this model provides a strong baseline metric to compare with other models. 
+And many a times complex models struggle to beat this baseline without explicit finetuning. At some point most of us who do data analysis/ML in python would have definitely written the following lines of code:
 
 ```python
 from sklearn.linear_model import LinearRegression
@@ -17,7 +18,7 @@ model = LinearRegression()
 model.fit(X_train, y_train)
 ```
 
-So what the above basically does you import the class which has the Regression module and methods associated with it and instantiate the class with a variable called model. And call the fit method on the variables X_train and y_train.
+So what the above basically does you import the class which has the Regression module and methods associated with it and followed by you instantiate the class with a variable called model. And call the fit method on the variables X_train and y_train.
 
 In most of the cases X is your training data and y would be your labels or actual value.
 Now X can just be a single column of data or X can also be a matrix. This leads to the definition of types of Linear Regression.
@@ -35,8 +36,8 @@ model.predict(X_test)
 - ### Simple Linear Regression:
 
 Let us take an simple example of a single column dataset ie: let $X = [1.1, 1.3, 2.2, 3.7, 5.1]$ and $y = [39343, 46205, 39891, 57189, 66029]$ this dataset represents years of experience on the X coordinate and salary in the y coordinate. for sake of understanding it is written as a row, but the transpose of X and y would be the actual size, so the X matrix would have dimension (5, 1) and y matrix would have dimension (5, 1) after transpose, which means for a matrix M of size (m, n). 
-- m is the no of rows in the matrix.
-- n is the no of columns in the matrix.
+- m is the no of rows in the matrix. (No of samples)
+- n is the no of columns in the matrix. (No of features)
 
 So the goal here is going to be to fit a line on this data. 
 
@@ -55,7 +56,7 @@ $$
 
 The above equation is the standard linear regression equation where $\beta_0$ is the intercept and $\beta_1$ is the slope and $\epsilon$ is the error term in the model. The error is assumed to have a normal distribution.
 
-So the predicted value would be $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1x$
+So the predicted value would be $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1x$ isn't this exactly similar to the straight line equation :)
 
 - So now the main question that arises in our head:
 **How do we solve to get the coefficient values of $\beta_0$ and $\beta_1$?**
@@ -63,7 +64,7 @@ So the predicted value would be $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1x$
 - The answer lies in one simple term called RSS. Now what is that?
 It's called the Residual Sum Square. Now the other question is why is it useful? 
 
-- The main thing to understand in regression, is that it never tried to find the true function but tries to minimize a cost function that gives you the best line close to your actual function. This is where Ordinary Least Squares (OLS) comes in. OLS is a method that finds the best line by minimizing a cost function called RSS (Residual Sum of Squares).
+- The main thing to understand in regression, is that it never tried to find the true function but tries to minimize a cost function that gives you the best line close to your actual function. This is where Ordinary Least Squares (OLS) comes in. OLS is a method that finds the best line by minimizing a cost function like Residual Sum Square (RSS).
  
 $$
 RSS = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
@@ -308,17 +309,16 @@ $$
 
 ## Conclusion:
 
-- So now we know the values of $\beta_0$ and $\beta_1$, using this formula, we can compute the values of the slope and intercept and plugging the values to this equation: 
+- So now we know the method to compute $\beta_0$ and $\beta_1$, using the above derived quantities we can estimate the equation to be as: 
 $$
 y = \hat{\beta_0} + \hat{\beta_1}X
 $$
 
-would give us the final simple linear regression equation.
-And this is exactly what happen behind the scenes of:
+And this is exactly what happens behind the scenes of:
 ```python
 model.fit(X, y)
 ```
-this computes your $\beta_0$ and $\beta_1$ values, so when you run predict method now you just have to plug in the X_test values and you get your predicted y_test values.
+this computes your $\beta_0$ and $\beta_1$ values, so when you run predict method now you just have to plug in the X_test values and you get your predicted y values for those X_test, and run the loss function on the predictions to see how close they are to actual y_test values.
 - But is this all to it?
 Well not exactly my friend! This is just for one column covariate, soon I will share what happens if there are multiple features or covariates which comes under multiple linear regression.
 
