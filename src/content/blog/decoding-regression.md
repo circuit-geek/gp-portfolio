@@ -8,7 +8,7 @@ tags: ["Machine Learning", "Statistics", "Regression Modelling"]
 
 # Introduction
 
-Almost every ML practitioner or Data Scientist would have done first opted the Linear Regression model for a structred tabular dataset. The reason being this model provides a baseline metric to compare with other models. And most of the time it is this simple models which far outperforms Boosting based models too. At some point who do analysis in python would have definetly written the following lines of code:
+Almost every ML practitioner or Data Scientist would have first opted for the Linear Regression model for a structured tabular dataset. The reason being this model provides a strong baseline metric to compare with other models. And at complex models struggle to beat this baseline without explicit finetuning. At some point who do analysis in python would have definitely written the following lines of code:
 
 ```python
 from sklearn.linear_model import LinearRegression
@@ -34,7 +34,7 @@ model.predict(X_test)
 
 - ### Simple Linear Regression:
 
-Let us take an simple example of a single column dataset ie: let $X = [1.1, 1.3, 2.2, 3.7, 5.1]$ and $y = [39343, 46205, 39891, 57189, 66029]$ this dataset represents years of experience on the X coordinate and salary in the y coordinate. for sake of understanding it is written as a row, but the transpose of X and y would be the actual size, so the X matrix would have dimesion (5, 1) and y matrix would have dimension (5, 1) after transpose, which means for a matrix M of size (m, n). 
+Let us take an simple example of a single column dataset ie: let $X = [1.1, 1.3, 2.2, 3.7, 5.1]$ and $y = [39343, 46205, 39891, 57189, 66029]$ this dataset represents years of experience on the X coordinate and salary in the y coordinate. for sake of understanding it is written as a row, but the transpose of X and y would be the actual size, so the X matrix would have dimension (5, 1) and y matrix would have dimension (5, 1) after transpose, which means for a matrix M of size (m, n). 
 - m is the no of rows in the matrix.
 - n is the no of columns in the matrix.
 
@@ -84,7 +84,7 @@ $$
 - To solve for $\beta_0$ and $\beta_1$ we need take partial derivatives with respect to $\beta_0$ and $\beta_1$ and set them to 0.
 - Solving those two equations would give you the value for it.
 
-**Partial dertivate with respect to $\beta_0$:**
+**Partial derivative with respect to $\beta_0$:**
 $$
 \frac{\partial}{\partial \beta_0}
 \sum_{i=1}^{n} \left(y_i - (\beta_0 + \beta_1 x_i)\right)^2
@@ -92,7 +92,7 @@ $$
 -2 \sum_{i=1}^{n} \left(y_i - (\beta_0 + \beta_1 x_i)\right)
 $$
 
-**Partial dertivate with respect to $\beta_1$:**
+**Partial derivative with respect to $\beta_1$:**
 $$
 \frac{\partial}{\partial \beta_1}
 \sum_{i=1}^{n} \left(y_i - (\beta_0 + \beta_1 x_i)\right)^2
@@ -295,7 +295,7 @@ $$
 \sum_{i=1}^{n} (x_i - \bar{x})^2
 $$
 
-- Subsituting these two results the final value of $\beta_1$ is:
+- Substituting these two results the final value of $\beta_1$ is:
 $$
 \beta_1
 =
@@ -310,7 +310,7 @@ $$
 
 - So now we know the values of $\beta_0$ and $\beta_1$, using this formula, we can compute the values of the slope and intercept and plugging the values to this equation: 
 $$
-y = \beta_0 + \beta_1X + \epsilon
+y = \hat{\beta_0} + \hat{\beta_1}X
 $$
 
 would give us the final simple linear regression equation.
@@ -326,5 +326,5 @@ Well not exactly my friend! This is just for one column covariate, soon I will s
 
 - **Regression Analysis**: in itself is a very broad and a vast topic, the more you can go in depth into it, more the models make sense to you as to why your predictions are the way they are.
 
-- The results here are explainable, which makes it's results more intutive and understandable, but we can't say the same thing about deep learning models now can we?
+- The results here are explainable, which makes it's results more intuitive and understandable, but we can't say the same thing about deep learning models now can we?
 - Thanks for reading this blog :), hope it was informative. I will come up with more such blogs in the upcoming days!!
