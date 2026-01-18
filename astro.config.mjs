@@ -5,7 +5,9 @@ import rehypeKatex from 'rehype-katex';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://your-portfolio.com',
+  output: 'static',
+  site: 'https://circuit-geek.github.io',
+  base: '/gp-portfolio',
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],

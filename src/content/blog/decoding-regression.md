@@ -63,7 +63,7 @@ So the predicted value would be $\hat{y} = \hat{\beta}_0 + \hat{\beta}_1x$
 - The answer lies in one simple term called RSS. Now what is that?
 It's called the Residual Sum Square. Now the other question is why is it useful? 
 
-- The main thing to understand in regression, is that it never tried to find the true function but tries to minimize a cost function that gives you the best line close to your actual function. And this is exactly what RSS does:
+- The main thing to understand in regression, is that it never tried to find the true function but tries to minimize a cost function that gives you the best line close to your actual function. This is where Ordinary Least Squares (OLS) comes in. OLS is a method that finds the best line by minimizing a cost function called RSS (Residual Sum of Squares).
  
 $$
 RSS = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
