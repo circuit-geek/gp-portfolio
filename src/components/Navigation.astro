@@ -7,13 +7,14 @@
       <span>Gaurav Prasanna</span>
     </a>
     
-    <div class="nav-menu" id="nav-menu">
-      <a href="/" class="nav-link">Home</a>
-      <a href="/#about" class="nav-link">About</a>
-      <a href="/#projects" class="nav-link">Projects</a>
-      <a href="/blog" class="nav-link" data-external="true">Blog</a>
-      <a href="/#contact" class="nav-link">Contact</a>
-    </div>
+  <div class="nav-menu" id="nav-menu">
+    <a href={import.meta.env.BASE_URL} class="nav-link">Home</a>
+    <a href={`${import.meta.env.BASE_URL}#about`} class="nav-link">About</a>
+    <a href={`${import.meta.env.BASE_URL}#projects`} class="nav-link">Projects</a>
+    <a href={`${import.meta.env.BASE_URL}blog/`} class="nav-link">Blog</a>
+    <a href={`${import.meta.env.BASE_URL}#contact`} class="nav-link">Contact</a>
+  </div>
+
 
     <button class="nav-toggle" id="nav-toggle">
       <span class="hamburger"></span>

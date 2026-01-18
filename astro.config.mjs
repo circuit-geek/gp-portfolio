@@ -8,6 +8,7 @@ export default defineConfig({
   output: 'static',
   site: 'https://circuit-geek.github.io',
   base: '/gp-portfolio',
+  trailingSlash: 'always',
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
