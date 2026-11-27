@@ -1,0 +1,100 @@
+---
+import { skillGroups } from '../data/skills';
+---
+
+<section id="skills" class="section alt">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Skills</span>
+      <h2 class="section-title">A toolkit built for <em>shipping</em>.</h2>
+      <p class="section-lede">The tools I reach for to model a problem and then put the solution into production.</p>
+    </div>
+
+    <div class="groups">
+      {
+        skillGroups.map((g, i) => (
+          <article class="card group reveal" style={`--d:${i * 80}ms`}>
+            <header>
+              <i class={`dot ${g.track}`} />
+              <div>
+                <h3>{g.name}</h3>
+                <p>{g.blurb}</p>
+              </div>
+            </header>
+            <ul>
+              {g.items.map((s) => (
+                <li class="chip">{s}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .alt {
+    background: var(--bg-soft);
+    border-block: 1px solid var(--line);
+  }
+
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem;
+  }
+
+  .group {
+    padding: 1.6rem;
+  }
+
+  .group header {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    margin-bottom: 1.25rem;
+  }
+
+  .group header .dot {
+    margin-top: 0.5rem;
+    width: 10px;
+    height: 10px;
+    font-style: normal;
+  }
+
+  .group h3 {
+    font-size: 1.1rem;
+  }
+
+  .group header p {
+    font-size: 0.88rem;
+    color: var(--ink-3);
+  }
+
+  .group ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .group .chip {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.8rem;
+    background: var(--bg);
+    transition: color 0.2s, border-color 0.2s, transform 0.3s var(--ease);
+  }
+
+  .group .chip:hover {
+    color: var(--ink);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 720px) {
+    .groups {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
