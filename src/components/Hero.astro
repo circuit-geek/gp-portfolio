@@ -1,156 +1,423 @@
 ---
+import { url } from '../utils/url';
+
+const tracks = [
+  {
+    id: 'data-science',
+    title: 'Data Scientist',
+    text: 'Predictive modelling, computer vision and deep learning, from published research to industrial deployments.',
+    tags: ['Python', 'R', 'PyTorch', 'TensorFlow', 'Statistical Analysis'],
+  },
+  {
+    id: 'backend',
+    title: 'Backend Developer',
+    text: 'APIs, real-time services and LLM agent systems, built to run in production.',
+    tags: ['FastAPI', 'Redis', 'WebSockets', 'Docker', 'LangGraph'],
+  },
+];
 ---
 
 <section id="home" class="hero">
+  <div class="bg" aria-hidden="true">
+    <div class="grid"></div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+  </div>
+
+  <div class="container hero-inner">
+    <div class="copy">
+      <p class="pill rise" style="--i:0">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+        Bengaluru, India · ThoughtClan Technologies
+      </p>
+
+      <h1 class="name rise" style="--i:1">Gaurav Prasanna</h1>
+
+      <p class="headline rise" style="--i:2">
+        Turning data into <em class="ds">models</em>, and models into <em class="be">backend systems</em>.
+      </p>
+
+      <p class="lede rise" style="--i:3">
+        Data Scientist and Backend Developer building ML-driven products: predictive models, computer vision,
+        LLM agents and the production APIs that serve them. MSc in Data Science and Analytics from University College Cork.
+      </p>
+
+      <div class="actions rise" style="--i:4">
+        <a href={url('#projects')} class="btn btn-primary">
+          View projects
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+        <a href={url('blog/')} class="btn btn-ghost">Read the blog</a>
+        <div class="socials">
+          <a href="https://github.com/circuit-geek" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path></svg>
+          </a>
+          <a href="https://www.linkedin.com/in/gaurav-prasanna-12400b191/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="portrait rise" style="--i:3">
+      <div class="frame">
+        <span class="initials">GP</span>
+        <img
+          src="https://avatars.githubusercontent.com/u/55285968?v=4"
+          alt="Portrait of Gaurav Prasanna"
+          width="200"
+          height="200"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <span class="float tag-ds"><i class="dot data-science"></i> Data Scientist</span>
+      <span class="float tag-be"><i class="dot backend"></i> Backend Developer</span>
+    </div>
+  </div>
+
   <div class="container">
-    <div class="hero-content">
-      <div class="hero-intro">
-        <div class="hero-text">
-          <h1 class="hero-title">
-            Hi, I'm <span class="highlight">Gaurav Prasanna</span>
-          </h1>
-        </div>
-        <div class="hero-image">
-          <img src="https://media.licdn.com/dms/image/v2/D5603AQE0XVgfFJir2g/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1681401939383?e=2147483647&v=beta&t=4x1ZJVn720RqEVHrhqsPkBRxcN2TohZcdrsm_R9T6Fw" alt="Your Name" class="profile-pic" />
-        </div>
-      </div>
-      <p class="hero-tagline">
-        Data Science Engineer | Machine Learning Enthusiast
-      </p>
-      <p class="hero-description">
-        Welcome to my portfolio/blog! I love working with data, APIs, and LLMs, and I’m always building something new to learn or sharpen my skills. 
-        I also enjoy writing — if you’re a math or tech aficionado, you might find my blogs pretty fascinating.
-      </p>
-      <div class="hero-buttons">
-        <a href="#projects" class="btn btn-primary">View My Work</a>
-        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-      </div>
+    <div class="tracks rise" style="--i:5">
+      {
+        tracks.map((t) => (
+          <article class="card track">
+            <h3>
+              <i class={`dot ${t.id}`} />
+              {t.title}
+            </h3>
+            <p>{t.text}</p>
+            <div class="tags">
+              {t.tags.map((x) => (
+                <span class="chip">{x}</span>
+              ))}
+            </div>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
 
 <style>
   .hero {
-    min-height: 100vh;
+    position: relative;
+    min-height: 100svh;
     display: flex;
-    align-items: center;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    padding-top: 5rem;
-  }
-
-  .hero-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .hero-intro {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
-    gap: 2rem;
-    margin-bottom: 1rem;
+    gap: 4rem;
+    padding: 8rem 0 4rem;
+    overflow: hidden;
   }
 
-  .hero-text {
-    flex: 1;
+  /* Ambient background */
+  .bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
   }
 
-  .hero-image {
-    flex-shrink: 0;
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
+    opacity: 0.7;
   }
 
-  .profile-pic {
-    width: 100px;
-    height: 100px;
+  .orb {
+    position: absolute;
+    width: 38rem;
+    height: 38rem;
     border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid white;
-    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.15);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    filter: blur(90px);
+    opacity: 0.32;
+    animation: drift 18s ease-in-out infinite alternate;
   }
 
-  .profile-pic:hover {
-    transform: scale(1.05);
-    box-shadow: 0 12px 40px rgba(37, 99, 235, 0.25);
+  .orb-a {
+    top: -12rem;
+    left: -8rem;
+    background: var(--ds);
   }
 
-  .hero-title {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    color: #111827;
+  .orb-b {
+    top: 4rem;
+    right: -12rem;
+    background: var(--be);
+    animation-delay: -6s;
   }
 
-  .highlight {
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  :global(:root[data-theme='dark']) .orb {
+    opacity: 0.18;
   }
 
-  .hero-tagline {
-    font-size: 1.5rem;
+  @keyframes drift {
+    to {
+      transform: translate3d(3rem, 2rem, 0) scale(1.08);
+    }
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  /* Entrance */
+  .rise {
+    animation: rise 0.9s var(--ease) both;
+    animation-delay: calc(var(--i) * 110ms + 100ms);
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.82rem;
+    color: var(--ink-2);
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .name {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 9vw, 6.4rem);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.4rem;
+  }
+
+  .headline {
+    font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+    line-height: 1.35;
     font-weight: 500;
-    color: #6b7280;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    max-width: 30ch;
+    margin-bottom: 1.2rem;
+  }
+
+  .headline em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.12em;
+  }
+
+  .headline .ds {
+    color: var(--ds);
+  }
+
+  .headline .be {
+    color: var(--be);
+  }
+
+  .lede {
+    font-size: 1.08rem;
+    max-width: 52ch;
     margin-bottom: 2rem;
   }
 
-  .hero-description {
-    font-size: 1.25rem;
-    line-height: 1.7;
-    margin-bottom: 3rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .hero-buttons {
+  .actions {
     display: flex;
-    gap: 1.5rem;
-    justify-content: center;
     flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
   }
 
-  @media (max-width: 768px) {
-    .hero {
-      min-height: 80vh;
-      padding-top: 3rem;
+  .socials {
+    display: flex;
+    gap: 0.4rem;
+    margin-left: 0.6rem;
+  }
+
+  .socials a {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    color: var(--ink-2);
+    border-radius: 50%;
+    transition: color 0.2s, background-color 0.2s, transform 0.3s var(--ease);
+  }
+
+  .socials a:hover {
+    color: var(--ink);
+    background: var(--bg-soft);
+    transform: translateY(-2px);
+  }
+
+  /* Portrait */
+  .portrait {
+    position: relative;
+    justify-self: center;
+    width: min(100%, 300px);
+  }
+
+  .frame {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 36% 64% 58% 42% / 42% 40% 60% 58%;
+    padding: 6px;
+    background: linear-gradient(135deg, var(--ds), var(--be));
+    box-shadow: var(--shadow-lg);
+    animation: morph 14s ease-in-out infinite alternate;
+  }
+
+  .frame img,
+  .initials {
+    position: absolute;
+    inset: 6px;
+    width: calc(100% - 12px);
+    height: calc(100% - 12px);
+    border-radius: inherit;
+    object-fit: cover;
+  }
+
+  .initials {
+    display: grid;
+    place-items: center;
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    color: var(--ink);
+    background: var(--bg-elev);
+  }
+
+  @keyframes morph {
+    50% {
+      border-radius: 58% 42% 40% 60% / 56% 58% 42% 44%;
+    }
+    to {
+      border-radius: 44% 56% 62% 38% / 40% 52% 48% 60%;
+    }
+  }
+
+  .float {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    white-space: nowrap;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    box-shadow: var(--shadow-md);
+    animation: bob 6s ease-in-out infinite;
+  }
+
+  .float i {
+    font-style: normal;
+  }
+
+  .tag-ds {
+    top: 8%;
+    left: -22%;
+  }
+
+  .tag-be {
+    bottom: 10%;
+    right: -14%;
+    animation-delay: -3s;
+  }
+
+  @keyframes bob {
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  /* Discipline cards */
+  .tracks {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem;
+  }
+
+  .track {
+    padding: 1.5rem 1.6rem;
+  }
+
+  .track h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .track h3 i {
+    font-style: normal;
+    width: 10px;
+    height: 10px;
+  }
+
+  .track p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
     }
 
-    .hero-intro {
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .hero-text {
-      text-align: center;
-    }
-
-    .profile-pic {
-      width: 80px;
-      height: 80px;
-    }
-
-    .hero-title {
-      font-size: 2.5rem;
-    }
-
-    .hero-tagline {
-      font-size: 1.25rem;
-    }
-
-    .hero-description {
-      font-size: 1.125rem;
-    }
-
-    .hero-buttons {
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .btn {
+    .portrait {
+      order: -1;
       width: 200px;
+      justify-self: start;
+    }
+
+    .tag-ds {
+      left: 70%;
+      top: -4%;
+    }
+
+    .tag-be {
+      right: auto;
+      left: 55%;
+      bottom: -6%;
+    }
+
+    .tracks {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .hero {
+      padding-top: 6.5rem;
+    }
+
+    .float {
+      display: none;
+    }
+
+    .socials {
+      margin-left: 0;
     }
   }
 </style>

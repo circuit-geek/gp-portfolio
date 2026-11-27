@@ -1,7 +1,10 @@
 ---
-title: "Finance Tracker and Investment Advisor"
-description: "This is a application which is currently under active development where user can track their finances and also multi agent system which is present to give advise and recommendations to the users about their investments across various assets."
-tech: ["Python", "LLM", "FastAPI", "Agents", "Finance Tracker"]
+title: "Finance Tracker & Investment Advisor"
+description: "In active development. Users track their finances while a multi-agent system gives advice and recommendations on investments across asset classes, served by a FastAPI backend."
+tech: ["Python", "FastAPI", "LLM Agents", "Multi-agent"]
 github: "https://github.com/circuit-geek/finance-stock-tracker-be"
+track: "backend"
+badge: "In progress"
+order: 5
 featured: false
 ---

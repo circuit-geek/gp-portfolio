@@ -1,213 +1,253 @@
 ---
 import { getCollection } from 'astro:content';
 
-const projects = await getCollection('projects');
-const featuredProjects = projects.filter(project => project.data.featured);
+interface Props {
+  /** Render as the standalone /projects page header instead of a home section. */
+  page?: boolean;
+}
+const { page = false } = Astro.props;
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order || a.data.title.localeCompare(b.data.title)
+);
+
+const filters = [
+  { id: 'all', label: 'All' },
+  { id: 'data-science', label: 'Data Science' },
+  { id: 'backend', label: 'Backend & AI systems' },
+];
+const trackLabel = { 'data-science': 'Data Science', backend: 'Backend & AI', both: 'Data Science + Backend' } as const;
 ---
 
-<section id="projects" class="section">
+<section id="projects" class:list={['section', { page }]}>
   <div class="container">
-    <h2 class="section-title">Featured Projects</h2>
-    
-    <div class="projects-grid">
-      {featuredProjects.length > 0 ? (
-        featuredProjects.map((project) => (
-          <div class="project-card card">
-            <h3 class="project-title">{project.data.title}</h3>
-            <p class="project-description">{project.data.description}</p>
-            
-            <div class="tech-stack">
-              {project.data.tech.map((tech) => (
-                <span class="tech-tag">{tech}</span>
-              ))}
-            </div>
-            
-            <div class="project-links">
-              {project.data.github && (
-                <a href={project.data.github} class="project-link" target="_blank" rel="noopener noreferrer">
-                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                  </svg>
-                  GitHub
-                </a>
-              )}
-              {project.data.demo && (
-                <a href={project.data.demo} class="project-link" target="_blank" rel="noopener noreferrer">
-                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-7h-2v7z"/>
-                  </svg>
-                  Live Demo
-                </a>
-              )}
-            </div>
-          </div>
-        ))
-      ) : (
-        // Placeholder projects when no content exists
-        <div class="project-card card">
-          <h3 class="project-title">ML-Powered Customer Segmentation</h3>
-          <p class="project-description">
-            Built an unsupervised learning pipeline to segment customers based on behavior patterns, 
-            resulting in 30% improvement in targeted marketing campaigns.
-          </p>
-          <div class="tech-stack">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Scikit-learn</span>
-            <span class="tech-tag">Pandas</span>
-            <span class="tech-tag">Docker</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link">
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              GitHub
-            </a>
-          </div>
-        </div>
-
-        <div class="project-card card">
-          <h3 class="project-title">Real-Time Fraud Detection System</h3>
-          <p class="project-description">
-            Developed a real-time ML pipeline for detecting fraudulent transactions with 99.2% accuracy 
-            and sub-100ms response time using streaming data processing.
-          </p>
-          <div class="tech-stack">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Apache Kafka</span>
-            <span class="tech-tag">TensorFlow</span>
-            <span class="tech-tag">Redis</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link">
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              GitHub
-            </a>
-            <a href="#" class="project-link">
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3m-2 16H5V5h7V3H5c-1.11 0-2 .89-2 2v14c0 1.11.89 2 2 2h14c1.11 0 2-.89 2-2v-7h-2v7z"/>
-              </svg>
-              Live Demo
-            </a>
-          </div>
-        </div>
-
-        <div class="project-card card">
-          <h3 class="project-title">Predictive Analytics Dashboard</h3>
-          <p class="project-description">
-            Created an interactive dashboard for sales forecasting using time series analysis and 
-            ensemble methods, helping the sales team increase accuracy by 25%.
-          </p>
-          <div class="tech-stack">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Streamlit</span>
-            <span class="tech-tag">Prophet</span>
-            <span class="tech-tag">Plotly</span>
-          </div>
-          <div class="project-links">
-            <a href="#" class="project-link">
-              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              GitHub
-            </a>
-          </div>
-        </div>
-      )}
+    <div class="section-head reveal">
+      <span class="eyebrow">Projects</span>
+      <h2 class="section-title">Things I've <em>built</em> and researched.</h2>
+      <p class="section-lede">Research, thesis work and side projects, spanning deep learning and LLM-backed services.</p>
     </div>
 
-    <div class="projects-cta">
-      <a href={`${import.meta.env.BASE_URL}projects/`},  class="btn btn-secondary">
-        View all projects
-      </a>
+    <div class="filters reveal" role="tablist" aria-label="Filter projects">
+      {
+        filters.map((f, i) => (
+          <button type="button" class:list={['filter', { on: i === 0 }]} data-filter={f.id} role="tab" aria-selected={i === 0}>
+            {f.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="grid">
+      {
+        projects.map((p, i) => (
+          <article class="card project reveal" data-track={p.data.track} style={`--d:${(i % 2) * 90}ms`}>
+            <div class="top">
+              <span class="track">
+                <i class={`dot ${p.data.track}`} />
+                {trackLabel[p.data.track]}
+              </span>
+              {p.data.badge && <span class="badge">{p.data.badge}</span>}
+            </div>
+            <h3>{p.data.title}</h3>
+            <p>{p.data.description}</p>
+            <div class="tech">
+              {p.data.tech.map((t) => (
+                <span class="chip">{t}</span>
+              ))}
+            </div>
+            {(p.data.github || p.data.arxiv || p.data.demo) && (
+              <div class="links">
+                {p.data.github && (
+                  <a href={p.data.github} target="_blank" rel="noopener noreferrer">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" /></svg>
+                    Code
+                  </a>
+                )}
+                {p.data.arxiv && (
+                  <a href={p.data.arxiv} target="_blank" rel="noopener noreferrer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" /><path d="M14 3v6h6M8 13h8M8 17h5" /></svg>
+                    Paper
+                  </a>
+                )}
+                {p.data.demo && (
+                  <a href={p.data.demo} target="_blank" rel="noopener noreferrer">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
+                    Live demo
+                  </a>
+                )}
+              </div>
+            )}
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
 
 <style>
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+  .page {
+    padding-top: 9rem;
+    min-height: 80vh;
   }
 
-  .project-card {
-    height: 100%;
+  .filters {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.3rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg-elev);
+  }
+
+  .filter {
+    font: inherit;
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 0.45rem 1rem;
+    color: var(--ink-2);
+    background: transparent;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.25s;
+  }
+
+  .filter:hover {
+    color: var(--ink);
+  }
+
+  .filter.on {
+    color: var(--bg);
+    background: var(--ink);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem;
+  }
+
+  .project {
     display: flex;
     flex-direction: column;
+    padding: 1.7rem;
   }
 
-  .project-title {
-    font-size: 1.375rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #111827;
+  .project.hide {
+    display: none;
   }
 
-  .project-description {
-    flex-grow: 1;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    line-height: 1.6;
+  .project.pop {
+    animation: pop 0.5s var(--ease) both;
   }
 
-  .tech-stack {
+  @keyframes pop {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.98);
+    }
+  }
+
+  .top {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .track {
+    display: inline-flex;
+    align-items: center;
     gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-2);
   }
 
-  .tech-tag {
-    background-color: #f3f4f6;
-    color: #374151;
-    padding: 0.25rem 0.75rem;
-    border-radius: 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
+  .track i {
+    font-style: normal;
   }
 
-  .project-links {
+  .badge {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.65rem;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border-radius: 999px;
+  }
+
+  .project h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .project p {
+    font-size: 0.95rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tech {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0.4rem;
     margin-top: auto;
   }
 
-  .project-link {
+  .links {
     display: flex;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .links a {
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    color: #374151;
+    gap: 0.45rem;
+    font-size: 0.88rem;
     font-weight: 500;
-    text-decoration: none;
-    transition: all 0.2s ease;
+    color: var(--ink-2);
+    transition: color 0.2s, transform 0.3s var(--ease);
   }
 
-  .project-link:hover {
-    background-color: #2563eb;
-    border-color: #2563eb;
-    color: white;
+  .links a:hover {
+    color: var(--accent);
+    transform: translateX(2px);
   }
 
-  .projects-cta {
-    text-align: center;
-  }
-
-  @media (max-width: 768px) {
-    .projects-grid {
+  @media (max-width: 760px) {
+    .grid {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .project-links {
-      flex-direction: column;
     }
   }
 </style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.filter');
+  const cards = document.querySelectorAll<HTMLElement>('.project');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter;
+      buttons.forEach((b) => {
+        const on = b === btn;
+        b.classList.toggle('on', on);
+        b.setAttribute('aria-selected', String(on));
+      });
+      cards.forEach((c) => {
+        const show = f === 'all' || c.dataset.track === f || c.dataset.track === 'both';
+        c.classList.toggle('hide', !show);
+        c.classList.remove('pop');
+        if (show) {
+          void c.offsetWidth;
+          c.classList.add('pop', 'in');
+        }
+      });
+    })
+  );
+</script>

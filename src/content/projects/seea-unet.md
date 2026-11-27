@@ -1,8 +1,11 @@
 ---
-title: "Squeeze Excitation Embedded Attention UNet"
-description: "This was a research project built in collaboration with Nagasaki University, Japan. Where we proposed a novel deep learning architecture based from Attention-UNet by incorporating Squeeze Excitation Network to capture channel level information for segmenting MRI brain scans to detect tumor."
-tech: ["Python", "Deep Learning", "Attention UNet", "Squeeze Excitation Network", "TensorFlow"]
+title: "Squeeze Excitation Embedded Attention U-Net"
+description: "Research in collaboration with Nagasaki University, Japan. A novel architecture that extends Attention U-Net with Squeeze-and-Excitation blocks to capture channel-level information when segmenting brain tumours in MRI scans."
+tech: ["Python", "TensorFlow", "Attention U-Net", "Squeeze-Excitation"]
 github: "https://github.com/circuit-geek/SEEA-UNet/tree/master"
 arxiv: "https://arxiv.org/abs/2305.07850"
+track: "data-science"
+badge: "Research"
+order: 6
 featured: false
 ---

@@ -1,149 +1,282 @@
 ---
+import { url } from '../utils/url';
+
+const path = Astro.url.pathname;
+const onBlog = path.includes('/blog');
+const links = [
+  { label: 'About', href: url('#about'), id: 'about' },
+  { label: 'Experience', href: url('#experience'), id: 'experience' },
+  { label: 'Skills', href: url('#skills'), id: 'skills' },
+  { label: 'Projects', href: url('#projects'), id: 'projects' },
+  { label: 'Blog', href: url('blog/'), id: 'blog' },
+  { label: 'Contact', href: url('#contact'), id: 'contact' },
+];
 ---
 
-<nav class="nav">
-  <div class="container nav-container">
-    <a href={import.meta.env.BASE_URL} class="logo">
-      <span>Gaurav Prasanna</span>
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href={url()} class="logo" aria-label="Gaurav Prasanna — home">
+      <span class="mark">GP</span>
+      <span class="logo-text">Gaurav Prasanna</span>
     </a>
-    
-  <div class="nav-menu" id="nav-menu">
-    <a href={import.meta.env.BASE_URL} class="nav-link">Home</a>
-    <a href={`${import.meta.env.BASE_URL}#about`} class="nav-link">About</a>
-    <a href={`${import.meta.env.BASE_URL}#projects`} class="nav-link">Projects</a>
-    <a href={`${import.meta.env.BASE_URL}blog/`} class="nav-link">Blog</a>
-    <a href={`${import.meta.env.BASE_URL}#contact`} class="nav-link">Contact</a>
-  </div>
 
+    <nav class="nav-menu" id="nav-menu" aria-label="Primary">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class:list={['nav-link', { active: onBlog && l.id === 'blog' }]}
+            data-id={l.id}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
 
-    <button class="nav-toggle" id="nav-toggle">
-      <span class="hamburger"></span>
-      <span class="hamburger"></span>
-      <span class="hamburger"></span>
-    </button>
+    <div class="nav-actions">
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle colour theme">
+        <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+        <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+      </button>
+      <button class="icon-btn nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span>
+      </button>
+    </div>
   </div>
-</nav>
+</header>
 
 <style>
   .nav {
     position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+    inset: 0 0 auto 0;
     z-index: 1000;
-    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+    border-bottom: 1px solid transparent;
   }
 
-  .nav-container {
+  .nav.scrolled {
+    background: var(--nav-bg);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom-color: var(--line);
+  }
+
+  .nav-inner {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    justify-content: space-between;
+    height: 4.25rem;
+    gap: 1rem;
   }
 
   .logo {
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: #111827;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
-  .logo:hover {
-    color: #2563eb;
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--accent-ink);
+    background: linear-gradient(135deg, var(--ds), var(--be));
+    transition: transform 0.4s var(--ease);
+  }
+
+  .logo:hover .mark {
+    transform: rotate(-8deg) scale(1.06);
   }
 
   .nav-menu {
     display: flex;
-    gap: 2rem;
+    gap: 0.25rem;
+    padding: 0.3rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition: border-color 0.3s, background-color 0.3s;
+  }
+
+  .nav.scrolled .nav-menu {
+    border-color: var(--line);
+    background: var(--bg-elev);
   }
 
   .nav-link {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.9rem;
     font-weight: 500;
-    color: #4b5563;
-    transition: color 0.2s ease;
+    color: var(--ink-2);
+    border-radius: 999px;
+    transition: color 0.2s, background-color 0.2s;
   }
 
   .nav-link:hover {
-    color: #2563eb;
+    color: var(--ink);
+  }
+
+  .nav-link.active {
+    color: var(--ink);
+    background: var(--bg-soft);
+  }
+
+  .nav-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .icon-btn {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    color: var(--ink-2);
+    background: transparent;
+    border: 1px solid var(--line-2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, transform 0.3s var(--ease);
+  }
+
+  .icon-btn:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+    transform: rotate(15deg);
+  }
+
+  .sun {
+    display: none;
+  }
+
+  :global(:root[data-theme='dark']) .sun {
+    display: block;
+  }
+
+  :global(:root[data-theme='dark']) .moon {
+    display: none;
   }
 
   .nav-toggle {
     display: none;
-    flex-direction: column;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.25rem;
+    position: relative;
   }
 
-  .hamburger {
-    width: 1.5rem;
-    height: 2px;
-    background-color: #4b5563;
-    margin: 2px 0;
-    transition: 0.3s;
+  .nav-toggle span {
+    position: absolute;
+    width: 14px;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.3s var(--ease);
   }
 
-  @media (max-width: 768px) {
+  .nav-toggle span:nth-child(1) {
+    transform: translateY(-3px);
+  }
+
+  .nav-toggle span:nth-child(2) {
+    transform: translateY(3px);
+  }
+
+  .nav-toggle.open span:nth-child(1) {
+    transform: rotate(45deg);
+  }
+
+  .nav-toggle.open span:nth-child(2) {
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 860px) {
+    .nav-toggle {
+      display: grid;
+    }
+
+    .nav-toggle:hover {
+      transform: none;
+    }
+
     .nav-menu {
       position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
+      top: calc(100% + 0.25rem);
+      left: 1rem;
+      right: 1rem;
       flex-direction: column;
-      padding: 1rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transform: translateY(-100%);
+      padding: 0.6rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: var(--bg-elev);
+      box-shadow: var(--shadow-lg);
       opacity: 0;
       visibility: hidden;
-      transition: all 0.3s ease;
+      transform: translateY(-8px);
+      transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0.25s;
     }
 
-    .nav-menu.active {
-      transform: translateY(0);
+    .nav-menu.open {
       opacity: 1;
       visibility: visible;
+      transform: none;
     }
 
-    .nav-toggle {
-      display: flex;
-    }
-
-    .nav-toggle.active .hamburger:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .nav-toggle.active .hamburger:nth-child(2) {
-      opacity: 0;
-    }
-
-    .nav-toggle.active .hamburger:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -6px);
+    .nav-link {
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
     }
   }
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
+  const nav = document.getElementById('nav');
+  const menu = document.getElementById('nav-menu');
+  const toggle = document.getElementById('nav-toggle');
 
-    navToggle?.addEventListener('click', function() {
-      navMenu?.classList.toggle('active');
-      navToggle.classList.toggle('active');
-    });
+  const syncNav = () => nav?.classList.toggle('scrolled', scrollY > 12);
+  addEventListener('scroll', syncNav, { passive: true });
+  syncNav();
 
-    // Close menu when clicking on a link
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-      link.addEventListener('click', function() {
-        // Don't close menu for external links (like blog)
-        if (!link.hasAttribute('data-external')) {
-          navMenu?.classList.remove('active');
-          navToggle?.classList.remove('active');
-        }
-      });
-    });
+  const setMenu = (open: boolean) => {
+    menu?.classList.toggle('open', open);
+    toggle?.classList.toggle('open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+  };
+  toggle?.addEventListener('click', () => setMenu(!menu?.classList.contains('open')));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', (e) => e.key === 'Escape' && setMenu(false));
+
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
   });
+
+  // Highlight the section currently in view (home page only)
+  const links = Array.from(menu?.querySelectorAll<HTMLElement>('.nav-link') ?? []);
+  const targets = links
+    .map((l) => document.getElementById(l.dataset.id || ''))
+    .filter((el): el is HTMLElement => !!el);
+  if (targets.length) {
+    const spy = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          links.forEach((l) => l.classList.toggle('active', l.dataset.id === e.target.id));
+        }),
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+    targets.forEach((t) => spy.observe(t));
+  }
 </script>

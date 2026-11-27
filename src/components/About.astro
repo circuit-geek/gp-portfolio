@@ -1,136 +1,203 @@
 ---
+import { education, publications } from '../data/experience';
 ---
 
 <section id="about" class="section">
   <div class="container">
-    <h2 class="section-title">About Me</h2>
-    
-    <div class="about-content">
-      <div class="about-text">
-        <p>
-          I’m a curious and hands-on Data Science Engineer who loves building things — from ML models 
-          and analytics pipelines to full-stack tools and agentic systems. I enjoy taking messy data, 
-          complex logic, or vague ideas and turning them into clear, reliable, and scalable products.
-        </p>
-        
-        <p>
-          With a strong background in statistical thinking, machine learning, and practical software engineering, 
-          I focus on creating solutions that are both technically sharp and genuinely useful. 
-          I’ve worked across projects involving statistical modelling, integrating Large language models to 
-          software applications and designing systems. 
-        </p>
+    <div class="section-head reveal">
+      <span class="eyebrow">About</span>
+      <h2 class="section-title">Part statistician, part <em>engineer</em>.</h2>
+    </div>
 
+    <div class="layout">
+      <div class="story reveal">
         <p>
-          Outside of building and experimenting, I spend my time writing about math, statistics, and AI/ML 
-          concepts, exploring new technologies, and diving into projects that challenge me to 
-          learn something new. 
+          I enjoy taking messy data, tangled logic or a vague idea and turning it into something clear, reliable and
+          useful. My background is in statistical thinking and machine learning, and my day job is practical software
+          engineering: building the services, APIs and pipelines that put models in front of real users.
+        </p>
+        <p>
+          At ThoughtClan I work across both sides: predictive modelling and computer vision for industrial clients, and
+          backend development for AI-powered platforms and agentic systems.
+        </p>
+        <p>
+          Outside of work I write about maths, statistics and AI/ML. Writing a concept down is the fastest way I know to
+          find out whether I really understand it.
         </p>
       </div>
 
-      <div class="skills-section">
-        <h3>Technical Skills</h3>
-        <div class="skills-grid">
-          <div class="skill-category">
-            <h4>Machine Learning</h4>
-            <div class="skills-list">
-              <span class="skill-tag">Python</span>
-              <span class="skill-tag">TensorFlow</span>
-              <span class="skill-tag">PyTorch</span>
-              <span class="skill-tag">R</span>
-            </div>
-          </div>
-
-          <!-- <div class="skill-category">
-            <h4>Data Engineering</h4>
-            <div class="skills-list">
-              <span class="skill-tag">SQL</span>
-              <span class="skill-tag">Apache Spark</span>
-              <span class="skill-tag">Airflow</span>
-              <span class="skill-tag">Docker</span>
-              <span class="skill-tag">AWS</span>
-            </div>
-          </div> -->
-
-          <div class="skill-category">
-            <h4>Analytics & Visualization</h4>
-            <div class="skills-list">
-              <span class="skill-tag">Pandas</span>
-              <span class="skill-tag">NumPy</span>
-              <span class="skill-tag">Matplotlib</span>
-              <span class="skill-tag">Plotly</span>
-              <span class="skill-tag">Tableau</span>
-            </div>
-          </div>
-
-          <div class="skill-category">
-            <h4>Tools & Technologies</h4>
-            <div class="skills-list">
-              <span class="skill-tag">Git</span>
-              <span class="skill-tag">Jupyter</span>
-              <span class="skill-tag">Ollama</span>
-              <span class="skill-tag">FastAPI</span>
-            </div>
-          </div>
-        </div>
+      <div class="edu">
+        <h3 class="mini reveal">Education</h3>
+        {
+          education.map((e, i) => (
+            <article class="card edu-card reveal" style={`--d:${i * 100}ms`}>
+              <div class="edu-top">
+                <h4>{e.school}</h4>
+                <span class="grade">{e.grade}</span>
+              </div>
+              <p class="degree">{e.degree}</p>
+              <p class="meta">{e.period} · {e.place}</p>
+              <div class="courses">
+                {e.courses.map((c) => (
+                  <span class="chip">{c}</span>
+                ))}
+              </div>
+            </article>
+          ))
+        }
       </div>
+    </div>
+
+    <div class="pubs">
+      <h3 class="mini reveal">Publications</h3>
+      <ul>
+        {
+          publications.map((p, i) => (
+            <li class="reveal" style={`--d:${i * 90}ms`}>
+              <time>{p.date}</time>
+              {p.href ? (
+                <a href={p.href} target="_blank" rel="noopener noreferrer">
+                  {p.title}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg>
+                </a>
+              ) : (
+                <span>{p.title}</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </section>
 
 <style>
-  .about-content {
+  .layout {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.1fr 1fr;
     gap: 4rem;
     align-items: start;
   }
 
-  .about-text p {
-    margin-bottom: 1.5rem;
+  .story p {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
   }
 
-  .skills-section h3 {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
-    color: #111827;
+  .story p:first-child {
+    color: var(--ink);
+    font-size: 1.25rem;
+    line-height: 1.55;
   }
 
-  .skills-grid {
-    display: grid;
-    gap: 2rem;
-  }
-
-  .skill-category h4 {
-    font-size: 1.125rem;
-    font-weight: 600;
+  .mini {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
     margin-bottom: 1rem;
-    color: #374151;
   }
 
-  .skills-list {
+  .edu {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .edu-card {
+    padding: 1.4rem 1.5rem;
+  }
+
+  .edu-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .edu-top h4 {
+    font-size: 1.05rem;
+  }
+
+  .grade {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .degree {
+    color: var(--ink);
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+  }
+
+  .meta {
+    font-size: 0.85rem;
+    color: var(--ink-3);
+    margin-bottom: 1rem;
+  }
+
+  .courses {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
-  .skill-tag {
-    background-color: #eff6ff;
-    color: #2563eb;
-    padding: 0.375rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border: 1px solid #dbeafe;
+  .pubs {
+    margin-top: 4.5rem;
   }
 
-  @media (max-width: 768px) {
-    .about-content {
+  .pubs ul {
+    list-style: none;
+    border-top: 1px solid var(--line);
+  }
+
+  .pubs li {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 1.5rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    transition: padding-left 0.35s var(--ease);
+  }
+
+  .pubs li:hover {
+    padding-left: 0.6rem;
+  }
+
+  .pubs time {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--ink-3);
+    padding-top: 0.2rem;
+  }
+
+  .pubs a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4rem;
+    color: var(--ink);
+    transition: color 0.2s;
+  }
+
+  .pubs a:hover {
+    color: var(--accent);
+  }
+
+  @media (max-width: 900px) {
+    .layout {
       grid-template-columns: 1fr;
-      gap: 3rem;
+      gap: 2.5rem;
     }
+  }
 
-    .skills-grid {
-      gap: 1.5rem;
+  @media (max-width: 560px) {
+    .pubs li {
+      grid-template-columns: 1fr;
+      gap: 0.2rem;
     }
   }
 </style>

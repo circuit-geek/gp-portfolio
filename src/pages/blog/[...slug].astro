@@ -3,242 +3,322 @@ import { type CollectionEntry, getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Navigation from '../../components/Navigation.astro';
 import Footer from '../../components/Footer.astro';
+import { url } from '../../utils/url';
+import { readingTime } from '../../utils/reading-time';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+  return posts.map((post, i) => ({
     params: { slug: post.slug },
-    props: post,
+    props: { post, newer: posts[i - 1] ?? null, older: posts[i + 1] ?? null },
   }));
 }
-type Props = CollectionEntry<'blog'>;
 
-const post = Astro.props;
+interface Props {
+  post: CollectionEntry<'blog'>;
+  newer: CollectionEntry<'blog'> | null;
+  older: CollectionEntry<'blog'> | null;
+}
+
+const { post, newer, older } = Astro.props;
 const { Content } = await post.render();
+const date = post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
-<Layout title={post.data.title} description={post.data.description}>
+<Layout title={`${post.data.title} · Gaurav Prasanna`} description={post.data.description}>
   <Navigation />
-  
-  <main class="post-main">
-    <div class="container">
-      <article class="post">
-        <header class="post-header">
-          <h1 class="post-title">{post.data.title}</h1>
-          <p class="post-description">{post.data.description}</p>
-          <div class="post-meta">
-            <time datetime={post.data.pubDate.toISOString()}>
-              {post.data.pubDate.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </time>
-            {post.data.author && <span class="author">by {post.data.author}</span>}
-            {post.data.tags && (
-              <div class="post-tags">
-                {post.data.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
-            )}
-          </div>
-        </header>
-        
-        <div class="post-content">
-          <Content />
-        </div>
 
-        <footer class="post-footer">
-          <a href={`${import.meta.env.BASE_URL}blog/`} class="back-to-blog">← Back to Blog</a>
-        </footer>
-      </article>
-    </div>
+  <main class="post-page">
+    <article class="container narrow">
+      <a href={url('blog/')} class="back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+        All posts
+      </a>
+
+      <header class="header">
+        <div class="meta">
+          <time datetime={post.data.pubDate.toISOString()}>{date}</time>
+          <span>·</span>
+          <span>{readingTime(post.body ?? '')} min read</span>
+        </div>
+        <h1>{post.data.title}</h1>
+        <p class="desc">{post.data.description}</p>
+        {
+          post.data.tags && (
+            <div class="chips">
+              {post.data.tags.map((t) => (
+                <span class="chip">{t}</span>
+              ))}
+            </div>
+          )
+        }
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <nav class="pager" aria-label="More posts">
+        {
+          newer ? (
+            <a class="card" href={url(`blog/${newer.slug}/`)}>
+              <span>Newer</span>
+              <strong>{newer.data.title}</strong>
+            </a>
+          ) : (
+            <span />
+          )
+        }
+        {
+          older && (
+            <a class="card next" href={url(`blog/${older.slug}/`)}>
+              <span>Older</span>
+              <strong>{older.data.title}</strong>
+            </a>
+          )
+        }
+      </nav>
+    </article>
   </main>
 
   <Footer />
 </Layout>
 
 <style>
-  .post-main {
-    padding-top: 5rem;
-    min-height: 80vh;
+  .post-page {
+    padding: 8rem 0 5rem;
   }
 
-  .post {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem 0;
+  .narrow {
+    max-width: 760px;
   }
 
-  .post-header {
-    margin-bottom: 3rem;
-    text-align: center;
-  }
-
-  .post-title {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    line-height: 1.2;
-    color: #111827;
-  }
-
-  .post-description {
-    font-size: 1.25rem;
-    color: #6b7280;
-    margin-bottom: 2rem;
-    line-height: 1.6;
-  }
-
-  .post-meta {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    flex-wrap: wrap;
-    padding: 1.5rem;
-    background-color: #f9fafb;
-    border-radius: 0.75rem;
-  }
-
-  .post-meta time {
-    color: #6b7280;
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-
-  .author {
-    color: #6b7280;
-    font-size: 0.875rem;
-  }
-
-  .post-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    background-color: #eff6ff;
-    color: #2563eb;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  .post-content {
-    line-height: 1.8;
-    font-size: 1.125rem;
-  }
-
-  .post-content :global(h1),
-  .post-content :global(h2),
-  .post-content :global(h3),
-  .post-content :global(h4) {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: #111827;
-  }
-
-  .post-content :global(h1) {
-    font-size: 2rem;
-  }
-
-  .post-content :global(h2) {
-    font-size: 1.75rem;
-  }
-
-  .post-content :global(h3) {
-    font-size: 1.5rem;
-  }
-
-  .post-content :global(p) {
-    margin-bottom: 1.5rem;
-    line-height: 1.8;
-  }
-
-  .post-content :global(ul),
-  .post-content :global(ol) {
-    margin-bottom: 1.5rem;
-    padding-left: 2rem;
-  }
-
-  .post-content :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .post-content :global(pre) {
-    background-color: #1f2937;
-    color: #f9fafb;
-    padding: 1.5rem;
-    border-radius: 0.5rem;
-    overflow-x: auto;
-    margin: 2rem 0;
-  }
-
-  .post-content :global(code) {
-    background-color: #f3f4f6;
-    color: #1f2937;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.875rem;
-  }
-
-  .post-content :global(pre code) {
-    background: none;
-    color: inherit;
-    padding: 0;
-  }
-
-  .post-content :global(blockquote) {
-    border-left: 4px solid #2563eb;
-    background-color: #eff6ff;
-    margin: 2rem 0;
-    padding: 1rem 2rem;
-    font-style: italic;
-  }
-
-  .post-footer {
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid #e5e7eb;
-  }
-
-  .back-to-blog {
-    color: #2563eb;
-    text-decoration: none;
-    font-weight: 500;
+  .back {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    transition: color 0.2s, transform 0.3s var(--ease);
   }
 
-  .back-to-blog:hover {
-    color: #1d4ed8;
+  .back:hover {
+    color: var(--accent);
+    transform: translateX(-3px);
   }
 
-  @media (max-width: 768px) {
-    .post {
-      padding: 1rem 0;
+  .header {
+    margin-bottom: 3rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line);
+    animation: rise 0.9s var(--ease) both;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+
+  .meta {
+    display: flex;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--ink-3);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+
+  .desc {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* Markdown body */
+  .prose {
+    font-size: 1.08rem;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+
+  .prose :global(> :first-child) {
+    margin-top: 0;
+  }
+
+  /* The first "# Introduction" heading in posts is redundant under the title */
+  .prose :global(h1) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 2.1rem;
+    margin: 2.8rem 0 1rem;
+  }
+
+  .prose :global(h2) {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 1.9rem;
+    margin: 2.8rem 0 1rem;
+  }
+
+  .prose :global(h3) {
+    font-size: 1.3rem;
+    margin: 2.2rem 0 0.8rem;
+  }
+
+  .prose :global(p) {
+    font-size: inherit;
+    color: var(--ink);
+    opacity: 0.88;
+    margin-bottom: 1.4rem;
+  }
+
+  .prose :global(a) {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 1.4rem 1.4rem;
+    color: var(--ink);
+    opacity: 0.88;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.4rem;
+  }
+
+  .prose :global(blockquote) {
+    margin: 1.8rem 0;
+    padding: 0.2rem 0 0.2rem 1.3rem;
+    border-left: 3px solid var(--accent);
+    color: var(--ink-2);
+    font-style: italic;
+  }
+
+  .prose :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 3rem 0;
+  }
+
+  .prose :global(img) {
+    margin: 2rem auto;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+  }
+
+  .prose :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    padding: 0.15em 0.4em;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+  }
+
+  .prose :global(pre) {
+    margin: 1.8rem 0;
+    padding: 1.2rem 1.4rem;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    background: var(--code-bg) !important;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+  }
+
+  .prose :global(pre code) {
+    padding: 0;
+    background: none;
+    border: 0;
+    font-size: inherit;
+  }
+
+  :global(:root[data-theme='dark']) .prose :global(.astro-code),
+  :global(:root[data-theme='dark']) .prose :global(.astro-code span) {
+    color: var(--shiki-dark) !important;
+  }
+
+  .prose :global(table) {
+    width: 100%;
+    margin: 1.8rem 0;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .prose :global(th),
+  .prose :global(td) {
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .prose :global(.katex-display) {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem 0;
+  }
+
+  /* Prev / next */
+  .pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.2rem 1.4rem;
+  }
+
+  .pager span {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .pager .next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  @media (max-width: 600px) {
+    .pager {
+      grid-template-columns: 1fr;
     }
 
-    .post-title {
-      font-size: 2rem;
-    }
-
-    .post-description {
-      font-size: 1.125rem;
-    }
-
-    .post-meta {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .post-content {
-      font-size: 1rem;
+    .pager .next {
+      grid-column: 1;
     }
   }
 </style>
