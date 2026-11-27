@@ -1,7 +1,3 @@
----
-import { education, publications } from '../data/experience';
----
-
 <section id="about" class="section">
   <div class="container">
     <div class="section-head reveal">
@@ -9,74 +5,27 @@ import { education, publications } from '../data/experience';
       <h2 class="section-title">Part statistician, part <em>engineer</em>.</h2>
     </div>
 
-    <div class="layout">
-      <div class="story reveal">
-        <p>
-          I enjoy taking messy data, tangled logic or a vague idea and turning it into something clear, reliable and
-          useful. My background is in statistical thinking and machine learning, and my day job is practical software
-          engineering: building the services, APIs and pipelines that put models in front of real users.
-        </p>
-        <p>
-          At ThoughtClan I work across both sides: predictive modelling and computer vision for industrial clients, and
-          backend development for AI-powered platforms and agentic systems.
-        </p>
-        <p>
-          Outside of work I write about maths, statistics and AI/ML. Writing a concept down is the fastest way I know to
-          find out whether I really understand it.
-        </p>
-      </div>
-
-      <div class="edu">
-        <h3 class="mini reveal">Education</h3>
-        {
-          education.map((e, i) => (
-            <article class="card edu-card reveal" style={`--d:${i * 100}ms`}>
-              <div class="edu-top">
-                <h4>{e.school}</h4>
-                <span class="grade">{e.grade}</span>
-              </div>
-              <p class="degree">{e.degree}</p>
-              <p class="meta">{e.period} · {e.place}</p>
-              <div class="courses">
-                {e.courses.map((c) => (
-                  <span class="chip">{c}</span>
-                ))}
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="pubs">
-      <h3 class="mini reveal">Publications</h3>
-      <ul>
-        {
-          publications.map((p, i) => (
-            <li class="reveal" style={`--d:${i * 90}ms`}>
-              <time>{p.date}</time>
-              {p.href ? (
-                <a href={p.href} target="_blank" rel="noopener noreferrer">
-                  {p.title}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg>
-                </a>
-              ) : (
-                <span>{p.title}</span>
-              )}
-            </li>
-          ))
-        }
-      </ul>
+    <div class="story reveal">
+      <p>
+        I enjoy taking messy data, tangled logic or a vague idea and turning it into something clear, reliable and
+        useful. My background is in statistical thinking and machine learning, and my day job is practical software
+        engineering: building the services, APIs and pipelines that put models in front of real users.
+      </p>
+      <p>
+        At ThoughtClan I work across both sides: predictive modelling and computer vision for industrial clients, and
+        backend development for AI-powered platforms and agentic systems.
+      </p>
+      <p>
+        Outside of work I write about maths, statistics and AI/ML. Writing a concept down is the fastest way I know to
+        find out whether I really understand it.
+      </p>
     </div>
   </div>
 </section>
 
 <style>
-  .layout {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 4rem;
-    align-items: start;
+  .story {
+    max-width: 760px;
   }
 
   .story p {
@@ -88,116 +37,5 @@ import { education, publications } from '../data/experience';
     color: var(--ink);
     font-size: 1.25rem;
     line-height: 1.55;
-  }
-
-  .mini {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-3);
-    margin-bottom: 1rem;
-  }
-
-  .edu {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .edu-card {
-    padding: 1.4rem 1.5rem;
-  }
-
-  .edu-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-  }
-
-  .edu-top h4 {
-    font-size: 1.05rem;
-  }
-
-  .grade {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    color: var(--accent);
-    white-space: nowrap;
-  }
-
-  .degree {
-    color: var(--ink);
-    font-size: 0.95rem;
-    margin-top: 0.25rem;
-  }
-
-  .meta {
-    font-size: 0.85rem;
-    color: var(--ink-3);
-    margin-bottom: 1rem;
-  }
-
-  .courses {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .pubs {
-    margin-top: 4.5rem;
-  }
-
-  .pubs ul {
-    list-style: none;
-    border-top: 1px solid var(--line);
-  }
-
-  .pubs li {
-    display: grid;
-    grid-template-columns: 9rem 1fr;
-    gap: 1.5rem;
-    padding: 1.1rem 0;
-    border-bottom: 1px solid var(--line);
-    color: var(--ink);
-    transition: padding-left 0.35s var(--ease);
-  }
-
-  .pubs li:hover {
-    padding-left: 0.6rem;
-  }
-
-  .pubs time {
-    font-family: var(--font-mono);
-    font-size: 0.82rem;
-    color: var(--ink-3);
-    padding-top: 0.2rem;
-  }
-
-  .pubs a {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.4rem;
-    color: var(--ink);
-    transition: color 0.2s;
-  }
-
-  .pubs a:hover {
-    color: var(--accent);
-  }
-
-  @media (max-width: 900px) {
-    .layout {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .pubs li {
-      grid-template-columns: 1fr;
-      gap: 0.2rem;
-    }
   }
 </style>
